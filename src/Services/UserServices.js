@@ -21,7 +21,7 @@ class UserService{
     }
 
     login(email, password){
-        const user = this.repository.findByEmail(email)
+        const user = this.repository.findUserByEmail(email)
         if(!user) throw new Error("User not found")
 
         const isSamePassword = bcrypt.compareSync(password, user.password)

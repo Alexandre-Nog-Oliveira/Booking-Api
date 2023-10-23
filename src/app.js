@@ -46,4 +46,9 @@ app.post("/api/users/create", (req, res) => {
     res.code(code).send(body)
 })
 
+app.post("/api/user/login", (req, res) => {
+    const { code, body } = userController.login(req)
+    res.code(code).send(body)
+})
+
 module.exports = app

@@ -3,7 +3,7 @@ class UserController{
         this.service = service
     }
 
-    register(req, res){
+    register(req){
         const { name, email, password } = req.body
 
         if(!name |!email|| !password){
@@ -14,12 +14,23 @@ class UserController{
             const user = this.service.register(name, email, password)
             return { code:201, body:{ user } }
         }catch(error){
-            return { code: 200, body:{message: error.message}}
+            return { code: 400, body:{message: error.message}}
         }
     }
 
-    login(){
+    login(req){
+        const { email, password } = req.body
 
+        if(!email|| !password){
+            return {code: 400, body:{ message: "Email and password are required" }};
+        }
+        
+        try{
+            const body = this.service.login(email, password)
+            return { code:200, body }
+        }catch(error){
+            return { code: 400, body:{message: error.message}}
+        }
     }
 }
 
