@@ -10,6 +10,7 @@ class BookingController{
 
     save(req){
     const { roomId, guestName, checkInDate, checkOutDate } = req.body
+    const user = req.user
         if(!roomId || !guestName || !checkInDate || !checkOutDate){
             return { code: 400, body: { message: "All fields are required."}}
         }

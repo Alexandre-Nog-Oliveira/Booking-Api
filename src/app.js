@@ -31,7 +31,16 @@ app.get("/", (req, res) => {
     res.status(200).send({message: "Helo World!"})
 })
 
-app.get("/api/bookings", (req, res) =>{
+app.get("/api/bookings", {preHandler: (req, res, done ) =>{
+    const token = req.headers.authorization ?.replace(/^Bearer/, "")
+    if(!token) res.code(401).send({message: "Unauthorized: token missing"})
+
+    const user = userServices.verifyToken(token)
+    if(!user) res.code(404).send({message: "Unauthorized: invalid token."})
+    req.user = user;
+    done()
+    
+}} ,(req, res) =>{
     const { code, body } = bookingController.index(req)
     res.code(code).send(body)
 })

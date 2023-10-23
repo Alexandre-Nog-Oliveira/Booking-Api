@@ -32,6 +32,12 @@ class UserService{
         const token = jwt.sign({id: user.id, email: user.email}, "secretJwt", { expiresIn: "1d" })
         return { token, user }
     }
+
+    verifyToken(token){
+        const decodedToken = jwt.verify(token, "secretJwt")
+        const user = this.repository.findUserByEmail(decodedToken.email)
+        return user;
+    }
 }
 
 module.exports = UserService
